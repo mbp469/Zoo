@@ -1,0 +1,5 @@
+Animal.prototype = {
+  buildMe: function() {
+    
+  }
+}
