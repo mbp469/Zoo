@@ -1,4 +1,5 @@
 $(document).ready(function() {
+$('button').hide();
 
     /* animal constructor */
     function Animal(name, mmddyyyy) {
@@ -23,35 +24,38 @@ $(document).ready(function() {
             dob: mmddyyyy
         };
         this.reproduce = function() {
-            var random = Math.round(Math.random());
-            if (random === 1) {
-                console.log("It's a girl!");
-            } else {
-                console.log("It's a boy!");
-            }
+            var random = Math.ceil(Math.random() * 12);
+            console.log("A litter of " + random + " pups!");
         };
         this.move = function() {
             console.log("Lope across the field!");
         };
         this.vocalize = function(timesToHowl) {
             console.log("ARRROOOOOO");
+            timesToHowl = timesToHowl || 3;
             for(var index = timesToHowl; index > 0; index--){
-              $('#wolf').appendChild('p').css('fontSize', '3em');
+              $('#wolf').appendChild('p').css('fontSize', '3em').innerHTML('ARRRRRROOOOOOOOOO');
             }
         };
         this.toString = function() {
             return (name + " is a wolf. " + name + " is " + Math.round(this.age) + ".");
         };
+        /* make the wolf howl each time the Howl button is clicked */
+        $('#wolf-vocalize').click(function(event) {
+          this.vocalize();
+        });
 
     }
     Wolf.prototype = new Animal();
 
     /* hide pics not selected and bring back when clicked again */
     $('#wolf-pic').click(function(event) {
-        $('section').slideToggle();
-        $('#wolf').toggleClass('active').slideDown();
+        $('img').slideToggle();
+        $('#wolf-pic').toggleClass('active').slideDown();
         $('.active').slideDown();
+        $('.wolf-btn').show();
     });
+
 
 
 
@@ -113,7 +117,7 @@ $(document).ready(function() {
     console.log("animal1 age: " + animal1.getAge());
     animal1.reproduce();
     animal1.move();
-    animal1.vocalize();
+    animal1.vocalize(3);
 
     var animal2 = new Duck('margery', '09/29/2015');
     console.log("animal2 age: " + animal2.getAge());
@@ -128,6 +132,7 @@ $(document).ready(function() {
     animal3.vocalize(3);
     console.log(Wolf.prototype);
     console.log(animal1.toString());
+
 
 
 
