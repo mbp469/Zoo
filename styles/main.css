@@ -1,0 +1,18 @@
+header {
+  height: 45vh; }
+
+h1 {
+  margin: 2% auto;
+  text-align: center;
+  font-size: 3em;
+  color: yellow;
+  background-image: linear-gradient(darkred 5%, darkblue 95%, yellow 100%);
+  padding-top: 16vh;
+  padding-bottom: 13vh; }
+
+#choose-animal {
+  text-align: center;
+  font-size: 2em;
+  margin: 12vh 0; }
+
+/*# sourceMappingURL=main.css.map */
