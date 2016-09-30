@@ -1,8 +1,12 @@
 $(document).ready(function() {
 $('button').hide();
+$('form').hide();
 
     /* animal constructor */
-    function Animal(name, mmddyyyy) {
+    function Animal(name, mmddyyyy, creatureType) {
+      this.name = name;
+      this.mmddyyyy = mmddyyyy;
+      this.creatureType = creatureType;
         this.getAge = function() {
             var timeNow = new Date();
             var timeBorn = this.getDOB();
@@ -13,16 +17,18 @@ $('button').hide();
             return Date.parse(mmddyyyy);
         };
         this.age = this.getAge();
-
+        $('#' + this.creatureType).click(function(event) {
+          $('img').slideToggle();
+          $('#wolf-pic').toggleClass('active').slideDown();
+          $('.active').slideDown();
+          $('.wolf-btn').show();
+        });
     }
 
     /* wolf constructor */
     function Wolf(name, mmddyyyy) {
-        Animal.call(this, name, mmddyyyy);
-        this.info = {
-            name: name,
-            dob: mmddyyyy
-        };
+        Animal.apply(this, arguments);
+        this.creatureType = 'wolf';
         this.reproduce = function() {
             var random = Math.ceil(Math.random() * 12);
             console.log("A litter of " + random + " pups!");
@@ -34,30 +40,30 @@ $('button').hide();
             console.log("ARRROOOOOO");
             timesToHowl = timesToHowl || 3;
             for(var index = timesToHowl; index > 0; index--){
-              $('#wolf').appendChild('p').css('fontSize', '3em').innerHTML('ARRRRRROOOOOOOOOO');
+              $('#wolf').append('<p>ARRRRRROOOOOOOOOO</p>').css('fontSize', '2em');
             }
         };
         this.toString = function() {
-            return (name + " is a wolf. " + name + " is " + Math.round(this.age) + ".");
+            return (name + " is a wolf " + name + " is " + Math.round(this.age) + ".");
         };
+        // this.imageArea = getElementById('wolf-pic');
+        /* hide pics not selected and bring back when clicked again */
+        // $('#wolf-pic').click(function(event) {
+        //     $('img').slideToggle();
+        //     $('#wolf-pic').toggleClass('active').slideDown();
+        //     $('.active').slideDown();
+        //     $('.wolf-btn').show();
+        //     var wolf = new Wolf('Sammy', 02/02/2013);
+        // });
+
         /* make the wolf howl each time the Howl button is clicked */
         $('#wolf-vocalize').click(function(event) {
-          this.vocalize();
+          this.vocalize(3);
         });
 
     }
-    Wolf.prototype = new Animal();
-
-    /* hide pics not selected and bring back when clicked again */
-    $('#wolf-pic').click(function(event) {
-        $('img').slideToggle();
-        $('#wolf-pic').toggleClass('active').slideDown();
-        $('.active').slideDown();
-        $('.wolf-btn').show();
-    });
-
-
-
+    Wolf.prototype = new Animal(this.name, this.mmddyyyy, 'wolf');
+    console.log(Wolf.prototype);
 
     /* duck constructor */
     function Duck(name, mmddyyyy) {
@@ -113,25 +119,25 @@ $('button').hide();
     Duck.prototype = new Animal();
 
     /* testing stuff */
-    var animal1 = new Wolf('fred', '09/29/2000');
-    console.log("animal1 age: " + animal1.getAge());
-    animal1.reproduce();
-    animal1.move();
-    animal1.vocalize(3);
-
-    var animal2 = new Duck('margery', '09/29/2015');
-    console.log("animal2 age: " + animal2.getAge());
-    animal2.reproduce();
-    animal2.move();
-    animal2.vocalize();
-
-    var animal3 = new Ecoli('DH5alpha', '9/30/2016');
-    console.log("animal3 age: " + animal3.getAge());
-    animal3.reproduce(35);
-    // animal3.move(place);
-    animal3.vocalize(3);
-    console.log(Wolf.prototype);
-    console.log(animal1.toString());
+    // var animal1 = new Wolf('fred', '09/29/2000');
+    // console.log("animal1 age: " + animal1.getAge());
+    // animal1.reproduce();
+    // animal1.move();
+    // animal1.vocalize(3);
+    //
+    // var animal2 = new Duck('margery', '09/29/2015');
+    // console.log("animal2 age: " + animal2.getAge());
+    // animal2.reproduce();
+    // animal2.move();
+    // animal2.vocalize();
+    //
+    // var animal3 = new Ecoli('DH5alpha', '9/30/2016');
+    // console.log("animal3 age: " + animal3.getAge());
+    // animal3.reproduce(35);
+    // // animal3.move(place);
+    // // animal3.vocalize(3);
+    // console.log(Wolf.prototype);
+    // console.log(animal1.toString());
 
 
 

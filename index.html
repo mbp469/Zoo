@@ -16,11 +16,23 @@
         <main id="main">
         <div id="choose-animal">
           Which animal would you like to visit?
+          <form id="form">
+            <label for="name">Name of Animal</label>
+            <input id="name" name="name" type="text" placeholder="Enter a name."><br>
+            <label for="dob">Date of Birth</label>
+            <input id="dob" name="date of birth" type="date" placeholder="Enter a birthday">
+            <label for="move">Would you like your animal to move?</label>
+            <input id="move" name="move" type="checkbox">
+            <label for="vocalize">Would you like your animal to vocalize?</label>
+            <input id="vocalize" name="vocalize" type="checkbox">
+            <label for="times-to-vocalize">How many vocalizations would you like?</label>
+            <input id="times-to-vocalize" name="times-to-vocalize" type="number" min="0" max="5">
+            <input id="submit" type="submit">
+            <button id="reproduce-btn">Reproduce</button>
+          </form>
+
           <section id="wolf">
           <img id="wolf-pic" src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcS69C1neSSzL6iZP9GeUhzEzvWvO4PvJXxrN9ZDDgq_6s7UlYvAqA" alt="picture of wolf">
-          <button class="vocalize wolf-btn" id="wolf-vocalize">Howl</button>
-          <button class="reproduce wolf-btn" id="wolf-reproduce">Make Puppies</button>
-          <button class="move wolf-btn" id="wolf-move">Run</button>
         </section>
 
         <section id="duck">

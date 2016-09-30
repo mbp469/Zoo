@@ -13,6 +13,9 @@ h1 {
   padding-top: 16vh;
   padding-bottom: 13vh; }
 
+form {
+  font-size: 1em; }
+
 #choose-animal {
   text-align: center;
   font-size: 2em;
