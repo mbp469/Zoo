@@ -1,3 +1,6 @@
+#wrapper {
+  background: beige;
+}
 header {
     height: 45vh;
 }
@@ -10,6 +13,10 @@ h1 {
     background-image: linear-gradient(darkred 5%, darkblue 95%, yellow 100%);
     padding-top: 16vh;
     padding-bottom: 13vh;
+}
+
+main {
+
 }
 
 #choose-animal {
