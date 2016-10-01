@@ -1,6 +1,6 @@
 $(document).ready(function() {
-$('button').hide();
-$('form').hide();
+
+
 
     /* animal constructor */
     function Animal(name, mmddyyyy, creatureType) {
@@ -16,13 +16,13 @@ $('form').hide();
         this.getDOB = function() {
             return Date.parse(mmddyyyy);
         };
+        this.picture = '#' + this.creatureType + '-pic';
+        this.section = '#' + this.creatureType;
+        this.button = '#' + this.creatureType + '-btn';
         this.age = this.getAge();
-        $('#' + this.creatureType).click(function(event) {
-          $('img').slideToggle();
-          $('#wolf-pic').toggleClass('active').slideDown();
-          $('.active').slideDown();
-          $('.wolf-btn').show();
-        });
+        this.init = function() {
+          
+        }
     }
 
     /* wolf constructor */
@@ -46,15 +46,6 @@ $('form').hide();
         this.toString = function() {
             return (name + " is a wolf " + name + " is " + Math.round(this.age) + ".");
         };
-        // this.imageArea = getElementById('wolf-pic');
-        /* hide pics not selected and bring back when clicked again */
-        // $('#wolf-pic').click(function(event) {
-        //     $('img').slideToggle();
-        //     $('#wolf-pic').toggleClass('active').slideDown();
-        //     $('.active').slideDown();
-        //     $('.wolf-btn').show();
-        //     var wolf = new Wolf('Sammy', 02/02/2013);
-        // });
 
         /* make the wolf howl each time the Howl button is clicked */
         $('#wolf-vocalize').click(function(event) {
