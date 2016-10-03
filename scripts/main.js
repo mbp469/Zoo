@@ -177,10 +177,8 @@ $(document).ready(function() {
 
     /* Test Wolf Constructor */
     console.log("\nTest Wolf Constructor\n");
-    var testWolf = new Wolf("Wolfie", "10 / 1 / 1978");
-    testWolf.move(
-
-    );
+    var testWolf = new Wolf("Wolfie", "10.3.1978");
+    testWolf.move();
     testWolf.vocalize(3);
     var wolfbaby = testWolf.reproduce(2);
     console.log("wolfbaby: " + wolfbaby.toString());
@@ -272,7 +270,7 @@ $(document).ready(function() {
                     throw error;
                 }
             } catch (error) {
-                prompt("That's not enough to start a culture! Try a bigger number.");
+                numberCells = prompt("That's not enough to start a culture! Try a bigger number.");
             }
             var date = new Date();
             var culture = new Gammaproteobacteria("Fresh Culture", date);
