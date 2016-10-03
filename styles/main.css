@@ -1,6 +1,10 @@
 #wrapper {
   background: beige; }
 
+#wolf-pic {
+  position: relative;
+  left: 0; }
+
 header {
   height: 45vh; }
 
