@@ -18,11 +18,25 @@ $(document).ready(function() {
             this.regions.babiesContainer = babiesContainer;
             this.regions.infoContainer = infoContainer;
         },
+
         move: function() {
-            console.log("I'm an animal and I can move.");
+            var moveImg = function() {
+                var leftOffset = 0;
+                var intervalId = setInterval(moveImg, 30);
+                $('#' + this.info.species + '-pic').offset({
+                    left: leftOffset
+                });
+                if (leftOffset > 1000) {
+                    clearInterval(intervalId);
+                    leftOffset = 0;
+                } else {
+                    leftOffset++;
+                    console.log("I'm an animal and I can move.");
+                }
+            };
         },
         vocalize: function(times) {
-          times = times || 3;
+            // times = times || 3;
             try {
                 if (times <= 0) {
                     throw error;
@@ -36,11 +50,13 @@ $(document).ready(function() {
             }
         },
         reproduce: function(times) {
-            times = times || 1;
+            // times = times || 1;
             try {
-              if (times < 0 || times > 13) {throw error;}
+                if (times < 0 || times > 13) {
+                    throw error;
+                }
             } catch (error) {
-              times = prompt("Pick a number of Animal babies between 1 and 13 for your reproduce function.");
+                times = prompt("Pick a number of Animal babies between 1 and 13 for your reproduce function.");
             }
             for (var index = 0; index < times; index++) {
                 console.log("A Baby!");
@@ -53,6 +69,8 @@ $(document).ready(function() {
             this.buildMe();
             //add the properties stored in constructors info section to the infoContainer in the HTML
             this.updateInfo();
+            /* add click event to the wolf-pic */
+            $('#wolf-pic').click(this.move().bind(this));
 
         },
         addInfo: function(content) {
@@ -63,8 +81,10 @@ $(document).ready(function() {
             //var info is appended to the infoContainer
             this.regions.infoContainer.appendChild(info);
         },
+        toString: function() {
+            return "[object Animal]";
+        }
     };
-
 
     /* Animal Constructor */
     function Animal(name, mmddyyyy) {
@@ -78,12 +98,11 @@ $(document).ready(function() {
             dob: new Date(mmddyyyy),
             species: "undefined species",
             class: "undefined class",
-            age: function(dob) {
-                var timeNow = new Date();
-                var age = Math.round((timeNow - timeBorn) / 31557600000);
-                console.log("age: " + age);
-                return age;
-            }
+        };
+        this.getAge = function() {
+            var timeNow = new Date();
+            var age = Math.round((timeNow - this.info.dob) / 31557600000);
+            return age;
         };
         this.updateInfo = function() {
             //begin with an empty string, overwriting past info in the infoContainer
@@ -93,41 +112,44 @@ $(document).ready(function() {
                 this.addInfo(this.info[property]);
             }
         };
-        this.toString = function() {
-          return (this.name + ", born: " + this.mmddyyyy + "[" + this.info.class + " " + this.info.species + "]");
-        };
     }
 
     /* Test Animal Constructor */
     console.log("Test Animal Constructor");
-    var testAnimal = new Animal("Lars", "8/1/46");
+    var testAnimal = new Animal("Lars", "8/1/1946");
     testAnimal.move();
-    testAnimal.vocalize(0);
-    testAnimal.reproduce(0);
-    testAnimal.toString();
+    testAnimal.vocalize(3);
+    testAnimal.reproduce(2);
+    console.log(testAnimal.toString());
+    console.log("name: " + testAnimal.info.name + ", age: " + testAnimal.getAge() + ", dob: " + testAnimal.info.dob + ", species: " + testAnimal.info.species + ", class: " + testAnimal.info.class);
 
 
     /* Mammal Constructor */
     Mammal.prototype = new Animal();
+    Mammal.prototype.toString = function() {
+        return "[object Mammal]";
+    };
 
     function Mammal(name, mmddyyyy) {
+        Animal.call(this, name, mmddyyyy);
         this.info.class = "Mammal";
-        Animal.call(this, arguments);
         this.reproduce = function(numberBabies) {
-          numberBabies = numberBabies || 2;
-          try {
-            if (numberBabies > 13 || numberBabies < 0){throw error;}
-          } catch (error) {
-            prompt("You want your Mammal to reproduce. Try a number between 1 and 13.");
-          }
-          for (var index = 1; index <= numberBabies; index++) {
-            var date = new Date();
-            var babyName = "Baby Mammal " + index;
-            var mammalbaby = new Mammal(babyName , date);
-            console.log("A new fuzzy baby! Born: " + date);
-            console.log(mammalbaby.toString());
-            return mammalbaby;
-          }
+            numberBabies = numberBabies || 2;
+            try {
+                if (numberBabies > 13 || numberBabies < 0) {
+                    throw error;
+                }
+            } catch (error) {
+                prompt("You want your Mammal to reproduce. Try a number between 1 and 13.");
+            }
+            for (var index = 1; index <= numberBabies; index++) {
+                var date = new Date();
+                var babyName = "Baby Mammal " + index;
+                var mammalbaby = new Mammal(babyName, date);
+                console.log("A new fuzzy baby! Born: " + date);
+                console.log("mammalbaby: " + mammalbaby.toString());
+                return mammalbaby;
+            }
         };
     }
 
@@ -135,42 +157,61 @@ $(document).ready(function() {
     console.log("Test Mammal Constructor");
     var testMammal = new Mammal("Fuzzy", "12/3/14");
     testMammal.move();
-    testMammal.vocalize(0);
-    testMammal.reproduce(0);
-    testMammal.toString();
+    testMammal.vocalize(3);
+    testMammal.reproduce(2);
+    console.log(testMammal.toString());
+    console.log("name: " + testMammal.info.name + ", age: " + testMammal.getAge() + ", dob: " + testMammal.info.dob + ", species: " + testMammal.info.species + ", class: " + testMammal.info.class);
 
 
     /* Wolf Constructor */
     Wolf.prototype = new Mammal();
-
+    Wolf.prototype.toString = function() {
+        return "[object Wolf]";
+    };
     function Wolf(name, mmddyyyy) {
-        Mammal.call(this, arguments);
+        Mammal.call(this, name, mmddyyyy);
         this.info.species = 'Wolf';
-        this.move = function(speed) {
-            console.log("Lope across the white expanse.");
-
-        };
         this.vocalize = function(times) {
             for (var index = 0; index < times; index++) {
                 console.log("AAARRRRROOOOOOOOOO");
             }
         };
+        this.move = function() {
+          var intervalId = setInterval(moveImg, 30);
+            var moveImg = function() {
+                var leftOffset = 0;
+                $('#wolf-pic').offset({
+                    left: leftOffset
+                });
+                if (leftOffset > 1000) {
+                    clearInterval(intervalId);
+                    leftOffset = 0;
+                } else {
+                    leftOffset++;
+                    console.log("Lope across the white expanse.");
+                }
+            };
+        };
+
     }
 
     /* Test Wolf Constructor */
     console.log("Test Wolf Constructor");
-    var testWolf = new Wolf("Wolfie", 10/1/1978);
+    var testWolf = new Wolf("Wolfie", 10 / 1 / 1978);
     testWolf.move();
-    testWolf.vocalize(0);
-    testWolf.reproduce(0);
-    testWolf.toString();
-
+    testWolf.vocalize(3);
+    testWolf.reproduce(2);
+    console.log(testWolf.toString());
+    console.log("name: " + testWolf.info.name + ", age: " + testMammal.getAge() + ", dob: " + testWolf.info.dob + ", species: " + testWolf.info.species + ", class: " + testWolf.info.class);
 
     /* Bird Constructor */
     Bird.prototype = new Animal();
+    Bird.prototype.toString = function() {
+        return "[object Bird]";
+    };
 
     function Bird(name, mmddyyyy) {
-        Animal.call(this, arguments);
+        Animal.call(this, name, mmddyyyy);
         this.info.class = "Bird";
         this.reproduce = function(eggs) {
             try {
@@ -178,7 +219,7 @@ $(document).ready(function() {
                     throw error;
                 }
                 if (eggs > 18) {
-                  throw error;
+                    throw error;
                 }
             } catch (error) {
                 eggs = prompt("You want your Bird to make a nest. Pick a number of eggs between 2 and 18.");
@@ -194,16 +235,21 @@ $(document).ready(function() {
     console.log("Test Bird Constructor");
     var testBird = new Bird("Tweets", "1.4.14");
     testBird.move();
-    testBird.vocalize(0);
-    testBird.reproduce(1);
-    testBird.toString();
+    testBird.vocalize(3);
+    testBird.reproduce(2);
+    console.log(testBird.toString());
+    console.log("name: " + testBird.info.name + ", age: " + testBird.getAge() + ", dob: " + testBird.info.dob + ", species: " + testBird.info.species + ", class: " + testBird.info.class);
+
 
 
     /* Duck Constructor */
     Duck.prototype = new Bird();
+    Duck.prototype.toString = function() {
+        return "[object Duck]";
+    };
 
     function Duck(name, mmddyyyy) {
-        Bird.call(this, arguments);
+        Bird.call(this, name, mmddyyyy);
         this.info.species = 'Duck';
         this.move = function() {
             console.log("Waddle to the pond and dive.");
@@ -213,30 +259,41 @@ $(document).ready(function() {
                 console.log("WACK WACK WACK");
             }
         };
+        this.toString = function() {
+            return ("[object Duck]");
+        };
+
     }
 
     /* Test Duck Constructor */
     console.log("Test Duck Constructor");
-    var testDuck = new Duck("Quackers", 1/1/2015);
+    var testDuck = new Duck("Quackers", 1 / 1 / 2015);
     testDuck.move();
-    testDuck.vocalize(0);
-    testDuck.reproduce(25);
-    testDuck.toString();
+    testDuck.vocalize(3);
+    testDuck.reproduce(4);
+    console.log(testDuck.toString());
+    console.log("name: " + testDuck.info.name + ", age: " + testDuck.getAge() + ", dob: " + testDuck.info.dob + ", species: " + testDuck.info.species + ", class: " + testDuck.info.class);
+
 
 
     /* Gammaproteobacteria Constructor */
     Gammaproteobacteria.prototype = new Animal();
+    Gammaproteobacteria.prototype.toString = function() {
+        return "[object Gammaproteobacteria]";
+    };
 
     function Gammaproteobacteria(name, mmddyyyy) {
-        Animal.call(this, arguments);
+        Animal.call(this, name, mmddyyyy);
         this.info.class = "Gammaproteobacteria";
         this.reproduce = function(numberCells) {
-          numberCells = numberCells || 400000;
-          try {
-            if (numberCells < 15000) { throw error;}
-          } catch (error) {
-            prompt("That's not enough to start a culture! Try a bigger number.");
-          }
+            numberCells = numberCells || 400000;
+            try {
+                if (numberCells < 15000) {
+                    throw error;
+                }
+            } catch (error) {
+                prompt("That's not enough to start a culture! Try a bigger number.");
+            }
             var date = new Date();
             var culture = new Gammaproteobacteria("Fresh Culture", date);
             console.log("A new colony of " + this.numberCells + "was formed on " + date);
@@ -248,16 +305,19 @@ $(document).ready(function() {
     console.log("Test Gammaproteobacteria Constructor");
     var testGamma = new Gammaproteobacteria("Today's culture", "10/1/16");
     testGamma.move();
-    testGamma.vocalize(0);
-    testGamma.reproduce(1);
-    testGamma.toString();
-
+    testGamma.vocalize(3);
+    testGamma.reproduce(15999);
+    console.log(testGamma.toString());
+    console.log("name: " + testGamma.info.name + ", age: " + testGamma.getAge() + ", dob: " + testGamma.info.dob + ", species: " + testGamma.info.species + ", class: " + testGamma.info.class);
 
     /* Ecoli Constructor */
     Ecoli.prototype = new Gammaproteobacteria();
+    Ecoli.prototype.toString = function() {
+        return "[object Ecoli]";
+    };
 
     function Ecoli(name, mmddyyyy) {
-        Gammaproteobacteria.call(this, arguments);
+        Gammaproteobacteria.call(this, name, mmddyyyy);
         this.info.species = 'E. coli';
         this.move = function() {
             console.log("Jiggle. Jiggle.");
@@ -271,10 +331,12 @@ $(document).ready(function() {
 
     /* Test Ecoli Constructor */
     console.log("Test Ecoli Constructor");
-    var testEcoli = new Ecoli ("DH5alpha", "9/30/16");
+    var testEcoli = new Ecoli("DH5alpha", "9/30/16");
     testEcoli.move();
-    testEcoli.vocalize(0);
-    testEcoli.reproduce(1);
-    testEcoli.toString();
+    testEcoli.vocalize(3);
+    testEcoli.reproduce(16999);
+    console.log(testEcoli.toString());
+    console.log("name: " + testEcoli.info.name + ", age: " + testEcoli.getAge() + ", dob: " + testEcoli.info.dob + ", species: " + testEcoli.info.species + ", class: " + testEcoli.info.class);
+
 
 });
