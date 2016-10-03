@@ -19,59 +19,12 @@ $(document).ready(function() {
             this.regions.infoContainer = infoContainer;
         },
 
-        move: function() {
-            var moveImg = function() {
-                var leftOffset = 0;
-                var intervalId = setInterval(moveImg, 30);
-                $('#' + this.info.species + '-pic').offset({
-                    left: leftOffset
-                });
-                if (leftOffset > 1000) {
-                    clearInterval(intervalId);
-                    leftOffset = 0;
-                } else {
-                    leftOffset++;
-                    console.log("I'm an animal and I can move.");
-                }
-            };
-        },
-        vocalize: function(times) {
-            // times = times || 3;
-            try {
-                if (times <= 0) {
-                    throw error;
-                }
-            } catch (error) {
-                times = prompt("C'mon. You have to make SOME noise. Enter a number of times for your animal to vocalize.");
-            } //if var times passes test, use to determine number of times the loop runs
-            for (var index = 0; index < times; index++) {
-                console.log("I'm an animal and I make noise.");
-                $('this.regions.sectionContainer').append('<p>NOISE</p>');
-            }
-        },
-        reproduce: function(times) {
-            // times = times || 1;
-            try {
-                if (times < 0 || times > 13) {
-                    throw error;
-                }
-            } catch (error) {
-                times = prompt("Pick a number of Animal babies between 1 and 13 for your reproduce function.");
-            }
-            for (var index = 0; index < times; index++) {
-                console.log("A Baby!");
-                //add a p element with text to the babiesContainer that we stored in regions while running the BuildMe function
-                $('this.regions.babiesContainer').append('<p>A Baby!</p>');
-            }
-        },
+
         init: function() {
             //gets containers ready to add elements to
             this.buildMe();
             //add the properties stored in constructors info section to the infoContainer in the HTML
             this.updateInfo();
-            /* add click event to the wolf-pic */
-            $('#wolf-pic').click(this.move().bind(this));
-
         },
         addInfo: function(content) {
             //var info, a p element, is created
@@ -112,20 +65,49 @@ $(document).ready(function() {
                 this.addInfo(this.info[property]);
             }
         };
+        this.reproduce = function(times) {
+            try {
+                if (times < 0 || times > 13) {
+                    throw error;
+                }
+            } catch (error) {
+                times = prompt("Pick a number of Animal babies between 1 and 13 for your reproduce function.");
+            }
+            for (var index = 0; index < times; index++) {
+                console.log("A Baby!");
+            }
+        };
+        this.move = function() {
+            console.log("I'm an animal and I can move.");
+        };
+        this.vocalize = function(times) {
+            try {
+                if (times <= 0) {
+                    throw error;
+                }
+            } catch (error) {
+                times = prompt("C'mon. You have to make SOME noise. Enter a number of times for your animal to vocalize.");
+            } //if var times passes test, use to determine number of times the loop runs
+            for (var index = 0; index < times; index++) {
+                console.log("I'm an animal and I make noise.");
+                $('this.regions.sectionContainer').append('<p>NOISE</p>');
+            }
+        };
+
+
     }
 
     /* Test Animal Constructor */
-    console.log("Test Animal Constructor");
+    console.log("\nTest Animal Constructor\n");
     var testAnimal = new Animal("Lars", "8/1/1946");
-    testAnimal.move();
-    testAnimal.vocalize(3);
-    testAnimal.reproduce(2);
-    console.log(testAnimal.toString());
-    console.log("name: " + testAnimal.info.name + ", age: " + testAnimal.getAge() + ", dob: " + testAnimal.info.dob + ", species: " + testAnimal.info.species + ", class: " + testAnimal.info.class);
+    testAnimal.move(); //I'm an animal and I can move.
+    testAnimal.vocalize(0); //You have to make SOME noise....
+    testAnimal.reproduce(0); //Pick a number between 1 and 13
+    console.log(testAnimal.toString()); //[object Animal]
+    console.log("name: " + testAnimal.info.name + ", age: " + testAnimal.getAge() + ", dob: " + testAnimal.info.dob + ", species: " + testAnimal.info.species + ", class: " + testAnimal.info.class); //name: Lars, age: 70, dob: 8/1/1946...
 
 
     /* Mammal Constructor */
-    Mammal.prototype = new Animal();
     Mammal.prototype.toString = function() {
         return "[object Mammal]";
     };
@@ -134,9 +116,8 @@ $(document).ready(function() {
         Animal.call(this, name, mmddyyyy);
         this.info.class = "Mammal";
         this.reproduce = function(numberBabies) {
-            numberBabies = numberBabies || 2;
             try {
-                if (numberBabies > 13 || numberBabies < 0) {
+                while (numberBabies > 13 || numberBabies < 0) {
                     throw error;
                 }
             } catch (error) {
@@ -147,14 +128,13 @@ $(document).ready(function() {
                 var babyName = "Baby Mammal " + index;
                 var mammalbaby = new Mammal(babyName, date);
                 console.log("A new fuzzy baby! Born: " + date);
-                console.log("mammalbaby: " + mammalbaby.toString());
                 return mammalbaby;
             }
         };
     }
 
     /* Test Mammal Constructor */
-    console.log("Test Mammal Constructor");
+    console.log("\nTest Mammal Constructor\n");
     var testMammal = new Mammal("Fuzzy", "12/3/14");
     testMammal.move();
     testMammal.vocalize(3);
@@ -164,43 +144,46 @@ $(document).ready(function() {
 
 
     /* Wolf Constructor */
-    Wolf.prototype = new Mammal();
     Wolf.prototype.toString = function() {
         return "[object Wolf]";
     };
+
     function Wolf(name, mmddyyyy) {
         Mammal.call(this, name, mmddyyyy);
         this.info.species = 'Wolf';
+        this.reproduce = function(babies) {
+          try {
+          while (babies < 1 || babies > 13) {
+            throw error;
+          }
+        } catch (error) {
+            babies = prompt("You need to pick a litter size between 1 and 13.");
+          }
+          var date = new Date();
+          for (var index = 0; index < babies; index++){
+          var wolfbaby = new Wolf("baby wolf " + index, date);
+          return wolfbaby;
+        }
+      };
         this.vocalize = function(times) {
             for (var index = 0; index < times; index++) {
                 console.log("AAARRRRROOOOOOOOOO");
             }
         };
         this.move = function() {
-          var intervalId = setInterval(moveImg, 30);
-            var moveImg = function() {
-                var leftOffset = 0;
-                $('#wolf-pic').offset({
-                    left: leftOffset
-                });
-                if (leftOffset > 1000) {
-                    clearInterval(intervalId);
-                    leftOffset = 0;
-                } else {
-                    leftOffset++;
-                    console.log("Lope across the white expanse.");
-                }
-            };
+            console.log("Lope across the white expanse.");
         };
-
     }
 
     /* Test Wolf Constructor */
-    console.log("Test Wolf Constructor");
-    var testWolf = new Wolf("Wolfie", 10 / 1 / 1978);
-    testWolf.move();
+    console.log("\nTest Wolf Constructor\n");
+    var testWolf = new Wolf("Wolfie", "10 / 1 / 1978");
+    testWolf.move(
+
+    );
     testWolf.vocalize(3);
-    testWolf.reproduce(2);
+    var wolfbaby = testWolf.reproduce(2);
+    console.log("wolfbaby: " + wolfbaby.toString());
     console.log(testWolf.toString());
     console.log("name: " + testWolf.info.name + ", age: " + testMammal.getAge() + ", dob: " + testWolf.info.dob + ", species: " + testWolf.info.species + ", class: " + testWolf.info.class);
 
@@ -215,10 +198,7 @@ $(document).ready(function() {
         this.info.class = "Bird";
         this.reproduce = function(eggs) {
             try {
-                if (eggs < 2) {
-                    throw error;
-                }
-                if (eggs > 18) {
+                while (eggs < 2 || eggs > 18) {
                     throw error;
                 }
             } catch (error) {
@@ -232,11 +212,12 @@ $(document).ready(function() {
     }
 
     /* Test Bird Constructor */
-    console.log("Test Bird Constructor");
+    console.log("\nTest Bird Constructor\n");
     var testBird = new Bird("Tweets", "1.4.14");
     testBird.move();
-    testBird.vocalize(3);
-    testBird.reproduce(2);
+    testBird.vocalize(0);
+    var birdbaby = testBird.reproduce(1);
+    console.log("birdbaby: " + birdbaby.toString());
     console.log(testBird.toString());
     console.log("name: " + testBird.info.name + ", age: " + testBird.getAge() + ", dob: " + testBird.info.dob + ", species: " + testBird.info.species + ", class: " + testBird.info.class);
 
@@ -262,15 +243,15 @@ $(document).ready(function() {
         this.toString = function() {
             return ("[object Duck]");
         };
-
     }
 
     /* Test Duck Constructor */
-    console.log("Test Duck Constructor");
+    console.log("\nTest Duck Constructor\n");
     var testDuck = new Duck("Quackers", 1 / 1 / 2015);
     testDuck.move();
     testDuck.vocalize(3);
-    testDuck.reproduce(4);
+    var duckbaby = testDuck.reproduce(19);
+    console.log("duckbaby: " + duckbaby.toString());
     console.log(testDuck.toString());
     console.log("name: " + testDuck.info.name + ", age: " + testDuck.getAge() + ", dob: " + testDuck.info.dob + ", species: " + testDuck.info.species + ", class: " + testDuck.info.class);
 
@@ -286,9 +267,8 @@ $(document).ready(function() {
         Animal.call(this, name, mmddyyyy);
         this.info.class = "Gammaproteobacteria";
         this.reproduce = function(numberCells) {
-            numberCells = numberCells || 400000;
             try {
-                if (numberCells < 15000) {
+                while (numberCells < 15000) {
                     throw error;
                 }
             } catch (error) {
@@ -296,17 +276,18 @@ $(document).ready(function() {
             }
             var date = new Date();
             var culture = new Gammaproteobacteria("Fresh Culture", date);
-            console.log("A new colony of " + this.numberCells + "was formed on " + date);
+            console.log("A new colony of " + numberCells + " was formed on " + date);
             return culture;
         };
     }
 
     /* Test Gammaproteobacteria Constructor */
-    console.log("Test Gammaproteobacteria Constructor");
-    var testGamma = new Gammaproteobacteria("Today's culture", "10/1/16");
+    console.log("\nTest Gammaproteobacteria Constructor\n");
+    var testGamma = new Gammaproteobacteria("Today's Culture", "10/1/16");
     testGamma.move();
-    testGamma.vocalize(3);
-    testGamma.reproduce(15999);
+    testGamma.vocalize(0);
+    var gammababies = testGamma.reproduce(1000);
+    console.log("gammababies: " + gammababies.toString());
     console.log(testGamma.toString());
     console.log("name: " + testGamma.info.name + ", age: " + testGamma.getAge() + ", dob: " + testGamma.info.dob + ", species: " + testGamma.info.species + ", class: " + testGamma.info.class);
 
@@ -323,6 +304,13 @@ $(document).ready(function() {
             console.log("Jiggle. Jiggle.");
         };
         this.vocalize = function(times) {
+            try {
+                while (times < 1) {
+                    throw error;
+                }
+            } catch (error) {
+                times = prompt("I wanna talk to you! Pick a number of times for me to express myself!");
+            }
             for (var index = 0; index < times; index++) {
                 console.log("Wanna share my plasmid? I'm resistant to ampicillin.");
             }
@@ -330,11 +318,12 @@ $(document).ready(function() {
     }
 
     /* Test Ecoli Constructor */
-    console.log("Test Ecoli Constructor");
+    console.log("\nTest Ecoli Constructor\n");
     var testEcoli = new Ecoli("DH5alpha", "9/30/16");
     testEcoli.move();
     testEcoli.vocalize(3);
-    testEcoli.reproduce(16999);
+    var babycoli = testEcoli.reproduce(16999);
+    console.log("babycoli: " + babycoli.toString());
     console.log(testEcoli.toString());
     console.log("name: " + testEcoli.info.name + ", age: " + testEcoli.getAge() + ", dob: " + testEcoli.info.dob + ", species: " + testEcoli.info.species + ", class: " + testEcoli.info.class);
 
