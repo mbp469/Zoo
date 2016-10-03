@@ -152,19 +152,19 @@ $(document).ready(function() {
         Mammal.call(this, name, mmddyyyy);
         this.info.species = 'Wolf';
         this.reproduce = function(babies) {
-          try {
-          while (babies < 1 || babies > 13) {
-            throw error;
-          }
-        } catch (error) {
-            babies = prompt("You need to pick a litter size between 1 and 13.");
-          }
-          var date = new Date();
-          for (var index = 0; index < babies; index++){
-          var wolfbaby = new Wolf("baby wolf " + index, date);
-          return wolfbaby;
-        }
-      };
+            try {
+                while (babies < 1 || babies > 13) {
+                    throw error;
+                }
+            } catch (error) {
+                babies = prompt("You need to pick a litter size between 1 and 13.");
+            }
+            var date = new Date();
+            for (var index = 0; index < babies; index++) {
+                var wolfbaby = new Wolf("baby wolf " + index, date);
+                return wolfbaby;
+            }
+        };
         this.vocalize = function(times) {
             for (var index = 0; index < times; index++) {
                 console.log("AAARRRRROOOOOOOOOO");
@@ -183,7 +183,7 @@ $(document).ready(function() {
     var wolfbaby = testWolf.reproduce(2);
     console.log("wolfbaby: " + wolfbaby.toString());
     console.log(testWolf.toString());
-    console.log("name: " + testWolf.info.name + ", age: " + testMammal.getAge() + ", dob: " + testWolf.info.dob + ", species: " + testWolf.info.species + ", class: " + testWolf.info.class);
+    console.log("name: " + testWolf.info.name + ", age: " + testWolf.getAge() + ", dob: " + testWolf.info.dob + ", species: " + testWolf.info.species + ", class: " + testWolf.info.class);
 
     /* Bird Constructor */
     Bird.prototype = new Animal();
