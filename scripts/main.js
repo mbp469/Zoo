@@ -23,8 +23,6 @@ $(document).ready(function() {
         init: function() {
             //gets containers ready to add elements to
             this.buildMe();
-            //add the properties stored in constructors info section to the infoContainer in the HTML
-            this.updateInfo();
             //add event listener
             $(this.regions.picArea).on('click', this.move.bind(this));
             $(this.regions.vocBtn).on('click', this.vocalize.bind(this));
@@ -64,8 +62,13 @@ $(document).ready(function() {
             return age;
         };
         this.updateInfo = function() {
-          console.log('in update info');
-          $(this.regions.infoContainer).css({"font-size":"1.5em","background-color": "lightgreen","border":"2px solid #3B200F"});
+            console.log('in update info');
+            $(this.regions.infoContainer).css({
+                "font-size": "1.5em",
+                "background-color": "darkblue",
+                "border": "2px solid yellow",
+                "color": "yellow"
+            });
             //begin with an empty string, overwriting past info in the infoContainer
             this.regions.infoContainer.innerHTML = '';
             //for each item stored in info, update the value in the HTML by passing it into the addInfo function in the prototype
@@ -164,34 +167,42 @@ $(document).ready(function() {
         this.regions.infoBtn = document.getElementById('wolf-btn-info');
 
         this.reproduce = function(babies) {
-            try {
-                while (babies < 1 || babies > 13) {
-                    throw error;
-                }
-            } catch (error) {
-                babies = prompt("You need to pick a litter size between 1 and 13.");
-            }
             var date = new Date();
-            for (var index = 0; index < babies; index++) {
-                var wolfbaby = new Wolf("baby wolf " + index, date);
-                return wolfbaby;
-            }
+            // for (var index = 0; index < babies; index++) {
+            var wolfbaby = new Wolf("baby wolf", date);
+            console.log('in reproduce');
+            $('#container').append('<img src="https://s-media-cache-ak0.pinimg.com/236x/cc/bb/b0/ccbbb011bcc3e1fc0cb4abab0a688112.jpg"/>');
+            return wolfbaby;
         };
         this.vocalize = function(times) {
-              console.log('in vocalize');
-              this.regions.infoContainer.innerHTML = '';
-              $(this.regions.infoContainer).css({"font-size":"4em","background-color":"white", "border":"3px solid black"});
-              this.addInfo('AAARRRRROOOOOOOOOO');
-                console.log("AAARRRRROOOOOOOOOO");
+            console.log('in vocalize');
+            this.regions.infoContainer.innerHTML = '';
+            $(this.regions.infoContainer).css({
+                "font-size": "4em",
+                "background-color": "white",
+                "border": "3px solid black",
+                "color": "black"
+            });
+            this.addInfo('AAARRRRROOOOOOOOOO');
+            console.log("AAARRRRROOOOOOOOOO");
         };
         this.move = function() {
-          
-          $('#wolf-pic')
-          .animate({left: "400px"}, 200)
-          .animate({left: "-200px"}, 200)
-          .animate({left: "0"}, 100);
+            $('img').slideToggle();
+            $('button').slideToggle();
+            $('#wolf-pic').slideToggle();
+            $('.wolf-btn').slideToggle();
+            $('#wolf-pic')
+                .animate({
+                    left: "400px"
+                }, 200)
+                .animate({
+                    left: "-200px"
+                }, 200)
+                .animate({
+                    left: "0"
+                }, 100);
             console.log("Lope across the white expanse.");
-          };
+        };
     }
 
     /* Test Wolf Constructor */
@@ -241,7 +252,7 @@ $(document).ready(function() {
 
 
     /* Duck Constructor */
-    Duck.prototype = new Bird();
+    Duck.prototype = new Animal();
     Duck.prototype.toString = function() {
         return "[object Duck]";
     };
@@ -249,9 +260,25 @@ $(document).ready(function() {
     function Duck(name, mmddyyyy) {
         Bird.call(this, name, mmddyyyy);
         this.info.species = 'Duck';
+        this.regions.picArea = document.getElementById('duck-pic');
+        this.regions.vocBtn = document.getElementById('duck-btn-vocalize');
+        this.regions.repBtn = document.getElementById('duck-btn-reproduce');
+        this.regions.infoBtn = document.getElementById('duck-btn-info');
+
         this.move = function() {
             console.log("Waddle to the pond and dive.");
+            $('img').slideToggle();
+            $('button').slideToggle();
+            $('#duck-pic').slideToggle();
+            $('.duck-btn').slideToggle();
+            for (var index = 0; index < 6; index++) {
+                $('#duck-pic').animate({
+                    "transform": "rotate(30deg)",
+                    "transform": "rotate(0deg)"
+                });
+            }
         };
+
         this.vocalize = function(times) {
             for (var index = 0; index < times; index++) {
                 console.log("WACK WACK WACK");
@@ -271,9 +298,6 @@ $(document).ready(function() {
     // console.log("duckbaby: " + duckbaby.toString());
     // console.log(testDuck.toString());
     // console.log("name: " + testDuck.info.name + ", age: " + testDuck.getAge() + ", dob: " + testDuck.info.dob + ", species: " + testDuck.info.species + ", class: " + testDuck.info.class);
-
-
-
     /* Gammaproteobacteria Constructor */
     Gammaproteobacteria.prototype = new Animal();
     Gammaproteobacteria.prototype.toString = function() {
@@ -347,6 +371,10 @@ $(document).ready(function() {
 
 
 
-var wolfObject = new Wolf("Wolfie", "10/30/2013"); wolfObject.init();
-
+    var wolfObject = new Wolf("Wolfie", "10/30/2013");
+    wolfObject.init();
+    var duckObject = new Duck("Woody", "11/4/1972");
+    duckObject.init();
+    var ecoliObject = new Ecoli("Yesterday's Culture", "10/3/2016");
+    ecoliObject.init();
 });

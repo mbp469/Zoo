@@ -8,6 +8,14 @@
 header {
   height: 45vh; }
 
+button {
+  margin-bottom: 8%; }
+
+h2 {
+  font-size: 1em;
+  margin-bottom: 5%;
+  color: darkblue; }
+
 h1 {
   margin: 2% auto;
   text-align: center;
@@ -16,6 +24,9 @@ h1 {
   background-image: linear-gradient(darkred 5%, darkblue 95%, yellow 100%);
   padding-top: 16vh;
   padding-bottom: 13vh; }
+
+#duck-pic {
+  transition: all 1s ease-in; }
 
 #choose-animal {
   text-align: center;
