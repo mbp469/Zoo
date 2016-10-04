@@ -175,7 +175,6 @@ $(document).ready(function() {
             return wolfbaby;
         };
         this.vocalize = function(times) {
-            console.log('in vocalize');
             this.regions.infoContainer.innerHTML = '';
             $(this.regions.infoContainer).css({
                 "font-size": "4em",
@@ -271,21 +270,34 @@ $(document).ready(function() {
             $('button').slideToggle();
             $('#duck-pic').slideToggle();
             $('.duck-btn').slideToggle();
-            for (var index = 0; index < 6; index++) {
-                $('#duck-pic').animate({
-                    "transform": "rotate(30deg)",
-                    "transform": "rotate(0deg)"
-                });
-            }
-        };
 
-        this.vocalize = function(times) {
-            for (var index = 0; index < times; index++) {
-                console.log("WACK WACK WACK");
-            }
+            $('#duck-pic').animate({
+              top: "400px"
+            }, 1000).animate({
+              top: "-400px"}, 1000)
+              .animate({
+                top: "0"}, 1000);
+              };
+        this.vocalize = function() {
+          this.regions.infoContainer.innerHTML = '';
+          $(this.regions.infoContainer).css({
+              "font-size": "4em",
+              "background-color": "white",
+              "border": "3px solid black",
+              "color": "black"
+          });
+          this.addInfo("WACK WACK WACK!");
         };
         this.toString = function() {
             return ("[object Duck]");
+        };
+        this.reproduce = function(babies) {
+            var date = new Date();
+            // for (var index = 0; index < babies; index++) {
+            var duckbaby = new Duck("duck egg", date);
+            console.log('in reproduce');
+            $('#container').append('<img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRmg0EpM4zN0cOUrHWadBa467_bVi_hBLAjmrvKLVyMIltM6cNM0w"/>');
+            return duckbaby;
         };
     }
 
