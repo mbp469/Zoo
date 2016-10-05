@@ -272,21 +272,23 @@ $(document).ready(function() {
             $('.duck-btn').slideToggle();
 
             $('#duck-pic').animate({
-              top: "400px"
-            }, 1000).animate({
-              top: "-400px"}, 1000)
-              .animate({
-                top: "0"}, 1000);
-              };
+                    top: "200px"
+                }, 1000).animate({
+                    top: "-200px"
+                }, 1000)
+                .animate({
+                    top: "0"
+                }, 1000);
+        };
         this.vocalize = function() {
-          this.regions.infoContainer.innerHTML = '';
-          $(this.regions.infoContainer).css({
-              "font-size": "4em",
-              "background-color": "white",
-              "border": "3px solid black",
-              "color": "black"
-          });
-          this.addInfo("WACK WACK WACK!");
+            this.regions.infoContainer.innerHTML = '';
+            $(this.regions.infoContainer).css({
+                "font-size": "4em",
+                "background-color": "white",
+                "border": "3px solid black",
+                "color": "black"
+            });
+            this.addInfo("WACK WACK WACK!");
         };
         this.toString = function() {
             return ("[object Duck]");
@@ -345,7 +347,7 @@ $(document).ready(function() {
     // console.log("name: " + testGamma.info.name + ", age: " + testGamma.getAge() + ", dob: " + testGamma.info.dob + ", species: " + testGamma.info.species + ", class: " + testGamma.info.class);
 
     /* Ecoli Constructor */
-    Ecoli.prototype = new Gammaproteobacteria();
+    Ecoli.prototype = new Animal();
     Ecoli.prototype.toString = function() {
         return "[object Ecoli]";
     };
@@ -353,40 +355,53 @@ $(document).ready(function() {
     function Ecoli(name, mmddyyyy) {
         Gammaproteobacteria.call(this, name, mmddyyyy);
         this.info.species = 'E. coli';
+        this.regions.picArea = document.getElementById('ecoli-pic');
+        this.regions.vocBtn = document.getElementById('ecoli-btn-vocalize');
+        this.regions.repBtn = document.getElementById('ecoli-btn-reproduce');
+        this.regions.infoBtn = document.getElementById('ecoli-btn-info');
+
         this.move = function() {
-            console.log("Jiggle. Jiggle.");
+            console.log("Jiggle.Jiggle.");
+            $('img').slideToggle();
+            $('button').slideToggle();
+            $('#ecoli-pic').slideToggle();
+            $('.ecoli-btn').slideToggle();
+            for(var i = 0; i < 25; i++){
+            $('#ecoli-pic').animate({
+                    top: "20px"
+                }, 100).animate({
+                    top: "-20px"
+                }, 100).animate({
+                    top: "0"
+                }, 100);
+              }
         };
-        this.vocalize = function(times) {
-            try {
-                while (times < 1) {
-                    throw error;
-                }
-            } catch (error) {
-                times = prompt("I wanna talk to you! Pick a number of times for me to express myself!");
+
+    this.vocalize = function(times) {
+        try {
+            while (times < 1) {
+                throw error;
             }
-            for (var index = 0; index < times; index++) {
-                console.log("Wanna share my plasmid? I'm resistant to ampicillin.");
-            }
-        };
-    }
+        } catch (error) {
+            times = prompt("I wanna talk to you! Pick a number of times for me to express myself!");
+        }
+        for (var index = 0; index < times; index++) {
+            console.log("Wanna share my plasmid? I'm resistant to ampicillin.");
+        }
+    };
+}
 
-    // /* Test Ecoli Constructor */
-    // console.log("\nTest Ecoli Constructor\n");
-    // var testEcoli = new Ecoli("DH5alpha", "9/30/16");
-    // testEcoli.move();
-    // testEcoli.vocalize(3);
-    // var babycoli = testEcoli.reproduce(16999);
-    // console.log("babycoli: " + babycoli.toString());
-    // console.log(testEcoli.toString());
-    // console.log("name: " + testEcoli.info.name + ", age: " + testEcoli.getAge() + ", dob: " + testEcoli.info.dob + ", species: " + testEcoli.info.species + ", class: " + testEcoli.info.class);
-    //
-
-
-
-    var wolfObject = new Wolf("Wolfie", "10/30/2013");
-    wolfObject.init();
-    var duckObject = new Duck("Woody", "11/4/1972");
-    duckObject.init();
-    var ecoliObject = new Ecoli("Yesterday's Culture", "10/3/2016");
-    ecoliObject.init();
+// /* Test Ecoli Constructor */
+// console.log("\nTest Ecoli Constructor\n");
+// var testEcoli = new Ecoli("DH5alpha", "9/30/16");
+// testEcoli.move();
+// testEcoli.vocalize(3);
+// var babycoli = testEcoli.reproduce(16999);
+// console.log("babycoli: " + babycoli.toString());
+// console.log(testEcoli.toString());
+// console.log("name: " + testEcoli.info.name + ", age: " + testEcoli.getAge() + ", dob: " + testEcoli.info.dob + ", species: " + testEcoli.info.species + ", class: " + testEcoli.info.class);
+//
+var wolfObject = new Wolf("Wolfie", "10/30/2013"); wolfObject.init();
+var duckObject = new Duck("Woody", "11/4/1972"); duckObject.init();
+var ecoliObject = new Ecoli("Yesterday's Culture", "10/3/2016"); ecoliObject.init();
 });
