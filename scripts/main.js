@@ -65,9 +65,9 @@ $(document).ready(function() {
             console.log('in update info');
             $(this.regions.infoContainer).css({
                 "font-size": "1.5em",
-                "background-color": "darkblue",
-                "border": "2px solid yellow",
-                "color": "yellow"
+                "background-color": "beige",
+                "border": "2px solid darkbrown",
+                "color": "darkbrown"
             });
             //begin with an empty string, overwriting past info in the infoContainer
             this.regions.infoContainer.innerHTML = '';
@@ -168,9 +168,7 @@ $(document).ready(function() {
 
         this.reproduce = function(babies) {
             var date = new Date();
-            // for (var index = 0; index < babies; index++) {
             var wolfbaby = new Wolf("baby wolf", date);
-            console.log('in reproduce');
             $('#container').append('<img src="https://s-media-cache-ak0.pinimg.com/236x/cc/bb/b0/ccbbb011bcc3e1fc0cb4abab0a688112.jpg"/>');
             return wolfbaby;
         };
@@ -186,6 +184,9 @@ $(document).ready(function() {
             console.log("AAARRRRROOOOOOOOOO");
         };
         this.move = function() {
+          $('')
+            this.addInfo('');
+            this.regions.infoContainer.innerHTML = '';
             $('img').slideToggle();
             $('button').slideToggle();
             $('#wolf-pic').slideToggle();
@@ -265,20 +266,22 @@ $(document).ready(function() {
         this.regions.infoBtn = document.getElementById('duck-btn-info');
 
         this.move = function() {
-            console.log("Waddle to the pond and dive.");
+            this.addInfo('');
+            this.regions.infoContainer.innerHTML = '';
+
             $('img').slideToggle();
             $('button').slideToggle();
             $('#duck-pic').slideToggle();
             $('.duck-btn').slideToggle();
 
             $('#duck-pic').animate({
-                    top: "200px"
-                }, 1000).animate({
-                    top: "-200px"
-                }, 1000)
+                    top: "100px"
+                }, 500).animate({
+                    top: "-100px"
+                }, 500)
                 .animate({
                     top: "0"
-                }, 1000);
+                }, 500);
         };
         this.vocalize = function() {
             this.regions.infoContainer.innerHTML = '';
@@ -360,48 +363,58 @@ $(document).ready(function() {
         this.regions.repBtn = document.getElementById('ecoli-btn-reproduce');
         this.regions.infoBtn = document.getElementById('ecoli-btn-info');
 
+        this.reproduce = function() {
+            var date = new Date();
+            // for (var index = 0; index < babies; index++) {
+            var ecolibaby = new Ecoli("Fresh Culture", date);
+            console.log('in reproduce');
+            $('#container').append('<img src="https://upload.wikimedia.org/wikipedia/commons/7/73/Ecoli_colonies.png"/>');
+            return ecolibaby;
+        };
         this.move = function() {
-            console.log("Jiggle.Jiggle.");
+            this.addInfo('');
+            this.regions.infoContainer.innerHTML = '';
             $('img').slideToggle();
             $('button').slideToggle();
             $('#ecoli-pic').slideToggle();
             $('.ecoli-btn').slideToggle();
-            for(var i = 0; i < 25; i++){
-            $('#ecoli-pic').animate({
-                    top: "20px"
-                }, 100).animate({
-                    top: "-20px"
-                }, 100).animate({
+            for (var i = 0; i < 25; i++) {
+                $('#ecoli-pic').animate({
+                    top: "10px"
+                }, 10).animate({
+                    top: "-10px"
+                }, 10).animate({
                     top: "0"
-                }, 100);
-              }
+                }, 10);
+            }
         };
 
-    this.vocalize = function(times) {
-        try {
-            while (times < 1) {
-                throw error;
-            }
-        } catch (error) {
-            times = prompt("I wanna talk to you! Pick a number of times for me to express myself!");
-        }
-        for (var index = 0; index < times; index++) {
-            console.log("Wanna share my plasmid? I'm resistant to ampicillin.");
-        }
-    };
-}
+        this.vocalize = function(times) {
+            this.regions.infoContainer.innerHTML = '';
+            $(this.regions.infoContainer).css({
+                "font-size": "4em",
+                "background-color": "white",
+                "border": "3px solid black",
+                "color": "black"
+            });
+            this.addInfo('Wanna share my plasmid? I\'m resistant to ampicillin.');
+        };
+    }
 
-// /* Test Ecoli Constructor */
-// console.log("\nTest Ecoli Constructor\n");
-// var testEcoli = new Ecoli("DH5alpha", "9/30/16");
-// testEcoli.move();
-// testEcoli.vocalize(3);
-// var babycoli = testEcoli.reproduce(16999);
-// console.log("babycoli: " + babycoli.toString());
-// console.log(testEcoli.toString());
-// console.log("name: " + testEcoli.info.name + ", age: " + testEcoli.getAge() + ", dob: " + testEcoli.info.dob + ", species: " + testEcoli.info.species + ", class: " + testEcoli.info.class);
-//
-var wolfObject = new Wolf("Wolfie", "10/30/2013"); wolfObject.init();
-var duckObject = new Duck("Woody", "11/4/1972"); duckObject.init();
-var ecoliObject = new Ecoli("Yesterday's Culture", "10/3/2016"); ecoliObject.init();
+    // /* Test Ecoli Constructor */
+    // console.log("\nTest Ecoli Constructor\n");
+    // var testEcoli = new Ecoli("DH5alpha", "9/30/16");
+    // testEcoli.move();
+    // testEcoli.vocalize(3);
+    // var babycoli = testEcoli.reproduce(16999);
+    // console.log("babycoli: " + babycoli.toString());
+    // console.log(testEcoli.toString());
+    // console.log("name: " + testEcoli.info.name + ", age: " + testEcoli.getAge() + ", dob: " + testEcoli.info.dob + ", species: " + testEcoli.info.species + ", class: " + testEcoli.info.class);
+    //
+    var wolfObject = new Wolf("Wolfie", "10/30/2013");
+    wolfObject.init();
+    var duckObject = new Duck("Woody", "11/4/1972");
+    duckObject.init();
+    var ecoliObject = new Ecoli("Yesterday's Culture", "10/3/2016");
+    ecoliObject.init();
 });
